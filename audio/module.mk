@@ -2,6 +2,7 @@ MODULE := audio
 
 MODULE_OBJS := \
 	adlib.o \
+	rpihat.o \
 	audiostream.o \
 	fmopl.o \
 	mididrv.o \

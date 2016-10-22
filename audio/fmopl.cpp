@@ -42,13 +42,18 @@ namespace ALSA {
 } // End of namespace ALSA
 #endif // USE_ALSA
 
+namespace RPIHAT {
+OPL *create();
+} // RPIHAT
+
 // Config implementation
 
 enum OplEmulator {
 	kAuto = 0,
 	kMame = 1,
 	kDOSBox = 2,
-	kALSA = 3
+	kALSA = 3,
+	kRPIHAT = 4
 };
 
 OPL::OPL() {
@@ -66,6 +71,7 @@ const Config::EmulatorDescription Config::_drivers[] = {
 #ifdef USE_ALSA
 	{ "alsa", _s("ALSA Direct FM"), kALSA, kFlagOpl2 | kFlagDualOpl2 | kFlagOpl3 },
 #endif
+	{ "rpihat", _s("RPi YM3812 Hat"), kRPIHAT, kFlagOpl2 },
 	{ 0, 0, 0, 0 }
 };
 
@@ -182,6 +188,9 @@ OPL *Config::create(DriverId driver, OplType type) {
 	case kALSA:
 		return ALSA::create(type);
 #endif
+
+	case kRPIHAT:
+		return RPIHAT::create();
 
 	default:
 		warning("Unsupported OPL emulator %d", driver);
